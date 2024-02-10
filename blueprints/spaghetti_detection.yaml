@@ -117,6 +117,7 @@ variables:
   FAILURE_ACTION_VAR: !input failure_action
   NOTIFICATION_SETTINGS_VAR: !input notification_settings
   NOTIFICATION_SERVICE_VAR: !input notification_service
+  PRINTER_STATUS_VAR: !input printer_print_status_sensor
 mode: single
 max_exceeded: silent
 trigger:
@@ -145,10 +146,9 @@ trigger:
       action: BAMBU_LAB_STOP_PRINTING
 
   # Camera frame change trigger
-  - platform: state
+  - platform: template
     id: BAMBU_LAB_CAMERA_FRAME_CHANGE
-    entity_id:
-      - !input printer_camera_image
+    value_template: "{% if (states(PRINTER_CAMERA_IMG_VAR) and is_state(PRINTER_STATUS_VAR, 'running')) %}true{% endif %}"
 condition: [ ]
 action:
   - choose:
