@@ -148,7 +148,7 @@ trigger:
   # Camera frame change trigger
   - platform: template
     id: BAMBU_LAB_CAMERA_FRAME_CHANGE
-    value_template: "{% if (states(PRINTER_CAMERA_IMG_VAR) and is_state(PRINTER_STATUS_VAR, 'running')) %}true{% endif %}"
+    value_template: "{% if as_timestamp(states(PRINTER_CAMERA_IMG_VAR)) < as_timestamp(now()) and is_state(PRINTER_STATUS_VAR, 'running') %}true{% endif %}"
 condition: [ ]
 action:
   - choose:
